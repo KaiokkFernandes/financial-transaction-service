@@ -16,5 +16,8 @@
   "bugs": {
     "url": "https://github.com/KaiokkFernandes/financial-transaction-service/issues"
   },
-  "homepage": "https://github.com/KaiokkFernandes/financial-transaction-service#readme"
+  "homepage": "https://github.com/KaiokkFernandes/financial-transaction-service#readme",
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
 }
