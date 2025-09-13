@@ -19,5 +19,12 @@
   "homepage": "https://github.com/KaiokkFernandes/financial-transaction-service#readme",
   "devDependencies": {
     "typescript": "^5.9.2"
+  },
+  "dependencies": {
+    "express": "^5.1.0",
+    "reflect-metadata": "^0.2.2",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.3.26",
+    "uuid": "^13.0.0"
   }
 }
