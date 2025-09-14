@@ -9,7 +9,7 @@
   "start": "node dist/server.js",
   "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
   "typeorm": "ts-node ./node_modules/typeorm/cli.js --dataSource src/data-source.ts",
-  "migration:generate": "npm run typeorm -- migration:generate src/database/migrations/Default",
+  "migration:generate": "npm run typeorm -- migration:generate",
   "migration:run": "npm run typeorm -- migration:run"
 },
 
