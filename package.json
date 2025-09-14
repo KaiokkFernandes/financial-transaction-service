@@ -2,10 +2,17 @@
   "name": "financial-transaction-service",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "main": "dist/server.js",
+
+"scripts": {
+  "build": "tsc",
+  "start": "node dist/server.js",
+  "dev": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' src/server.ts",
+  "typeorm": "ts-node ./node_modules/typeorm/cli.js --dataSource src/data-source.ts",
+  "migration:generate": "npm run typeorm -- migration:generate src/database/migrations/Default",
+  "migration:run": "npm run typeorm -- migration:run"
+},
+
   "repository": {
     "type": "git",
     "url": "git+https://github.com/KaiokkFernandes/financial-transaction-service.git"
