@@ -5,7 +5,7 @@ import path from 'path';
 
 export const AppDataSource = new DataSource({
   type: 'sqlite',
-  database: path.join(__dirname, '..', 'database', 'voltwallet.sqlite'),
+  database: path.join(__dirname, '..', 'database', 'dbfinance.sqlite'),
   synchronize: false, // Vou utilizar migrations então não precisamos desse parâmetro true
   logging: true,
   entities: [path.join(__dirname, 'entities', '**', '*.{js,ts}')],
