@@ -22,4 +22,19 @@ export class ClienteController {
         return res.status(500).json({message: 'Erro ao criar cliente', error});
     }
   }
+
+    // Método para obter todos os clientes
+    async listAll (req: Request, res: Response){
+        try{
+
+            const clienteRepository = AppDataSource.getRepository(Cliente);
+            const clientes = await clienteRepository.find({
+                order: {id: 'ASC'}
+            });
+            return res.status(200).json(clientes);
+        }catch(error){
+            return res.status(500).json({message: 'Erro ao listar clientes', error
+            })
+        }
+    }
 }
