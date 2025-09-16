@@ -59,7 +59,7 @@ export class ClienteController {
         return res.status(401).json({ message: 'Cliente não autenticado' });
     
     }
-
+    // Regra de Autorização: O usuário só pode consultar seus próprios dados.
      if (clienteAutenticado.id !== idParaConsultar) {
       return res.status(403).json({ message: 'Acesso negado. Você só pode consultar seus próprios dados.' });
     }
@@ -76,4 +76,35 @@ export class ClienteController {
       }
     }
 
+    // Método para realizar depósito na conta do cliente
+    async deposito(req: Request, res: Response){
+        const clienteAutenticado = req.cliente;
+        const idParaDepositar =  parseInt(req.params.id, 10);
+        const { valor } = req.body;
+
+        if(!clienteAutenticado){
+            return res.status(401).json({ message: 'Cliente não autenticado' });
+        }
+
+         // Regra de Autorização: O usuário só pode depositar em sua própria conta.
+        if (clienteAutenticado.id !== idParaDepositar) {
+          return res.status(403).json({ message: 'Acesso negado. Você só pode depositar em sua própria conta.' });
+          }
+
+        try{
+          const clienteAtualizado = await this.clienteUseCase.deposito(idParaDepositar, valor);
+          return res.status(200).json(clienteAtualizado);
+        } catch (error){
+         const errorMessage = error instanceof Error ? error.message : 'Erro interno do servidor.';
+      
+         if (errorMessage === 'O valor do depósito deve ser um número positivo.') {
+           return res.status(400).json({ message: errorMessage }); 
+         }
+         if (errorMessage === 'Cliente não encontrado') {
+           return res.status(404).json({ message: errorMessage });
+          }
+          
+          return res.status(500).json({ message: errorMessage });
+        }
+    }
 }
