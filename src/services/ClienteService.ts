@@ -51,4 +51,41 @@ export class ClienteUseCase {
 
          return cliente;
     }
+
+    async transferencia(origemId: number, destinoId: number, valor: number) : Promise<void> {
+        if (valor <= 0) {
+            throw new Error('Valor deve ser positivo');
+        }
+
+        if(origemId === destinoId){
+            throw new Error('Não é possivel transferir para a mesma conta, use o depósito');
+        }
+
+        // Aqui é para iniciar uma transação
+        await AppDataSource.transaction(async (transactionalEntityManager) => {
+
+            // Buscar os clientes de origem e destino dentro da transação
+            const clienteOrigem = await transactionalEntityManager.findOne(Cliente, { where: { id: origemId } });
+            const clienteDestino = await transactionalEntityManager.findOne(Cliente, { where: { id: destinoId } });
+
+            if (!clienteOrigem){
+                throw new Error('Cliente de origem não encontrado');
+            }
+
+            if(!clienteDestino){
+                throw new Error('Cliente de destino não encontrado');
+            }
+
+            if(Number(clienteOrigem.saldo) < valor){
+                throw new Error('Saldo insuficiente');
+            }
+            
+            // Atualiza todos os saldos
+            clienteOrigem.saldo = Number(clienteOrigem.saldo) - valor;
+            clienteDestino.saldo = Number(clienteDestino.saldo) + valor;
+
+            await transactionalEntityManager.save(clienteOrigem);
+            await transactionalEntityManager.save(clienteDestino);
+        });
+    }
 }
