@@ -59,7 +59,7 @@ export class ClienteController {
         return res.status(401).json({ message: 'Cliente não autenticado' });
     
     }
-    // Regra de Autorização: O usuário só pode consultar seus próprios dados.
+    // Regra de negócio o usuário só pode consultar seus próprios dados.
      if (clienteAutenticado.id !== idParaConsultar) {
       return res.status(403).json({ message: 'Acesso negado. Você só pode consultar seus próprios dados.' });
     }
@@ -86,7 +86,7 @@ export class ClienteController {
             return res.status(401).json({ message: 'Cliente não autenticado' });
         }
 
-         // Regra de Autorização: O usuário só pode depositar em sua própria conta.
+         // Regra de negócio o usuário só pode depositar em sua própria conta.
         if (clienteAutenticado.id !== idParaDepositar) {
           return res.status(403).json({ message: 'Acesso negado. Você só pode depositar em sua própria conta.' });
           }
@@ -106,5 +106,42 @@ export class ClienteController {
           
           return res.status(500).json({ message: errorMessage });
         }
+    }
+
+    // Método para realizar transferência entre contas
+    async transferencia(req: Request, res: Response){
+        const clienteAutenticado = req.cliente;
+        const idOrigem = parseInt(req.params.id, 10);
+        const {destino_id, valor } = req.body
+
+        if(!clienteAutenticado){
+            return res.status(401).json({message: "Cliente não autenticado"});
+        }
+        
+         // Regra de négocio o usuário só pode iniciar transferências de sua própria conta.
+        if (clienteAutenticado.id !== idOrigem) {
+          return res.status(403).json({ message: 'Acesso negado. Você só pode transferir de sua própria conta.' });
+         }
+
+         try{
+            await this.clienteUseCase.transferencia(idOrigem, destino_id, valor);
+            return res.status(200).json({message: 'Transferencia realizada com sucesso.'})
+   
+        }catch (error){
+      
+       const errorMessage = error instanceof Error ? error.message : 'Erro interno do servidor.';
+   
+       if (errorMessage.includes('não encontrado')) {
+        return res.status(404).json({ message: errorMessage });
+      }
+   
+      if (errorMessage.includes('Saldo insuficiente') || errorMessage.includes('valor deve ser positivo') || errorMessage.includes('não podem ser a mesma')) {
+        return res.status(400).json({ message: errorMessage })
+      }
+      
+      return res.status(500).json({ message: errorMessage });
+        
+      }
+
     }
 }

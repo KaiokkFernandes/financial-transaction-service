@@ -13,4 +13,6 @@ clienteRoutes.get('/:id', authMiddleware, (req, res) => controller.findById(req,
 
 clienteRoutes.post('/:id/deposito', authMiddleware, (req, res) => controller.deposito(req, res));
 
+clienteRoutes.post('/:id/transferencia', authMiddleware, (req, res) => controller.transferencia(req, res));
+
 export default clienteRoutes;
