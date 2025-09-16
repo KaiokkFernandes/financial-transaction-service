@@ -15,7 +15,7 @@ export class ClienteUseCase {
 
         return cliente;
     }
-
+    
     async create(nome: string): Promise<Cliente> {
         if (!nome || nome.trim() === '') {
             throw new Error('Nome é obrigatório');
@@ -37,5 +37,18 @@ export class ClienteUseCase {
         } catch (error) {
             throw new Error('Erro ao listar clientes');
         }
+    }
+
+    async deposito(clienteId: number, valor: number): Promise<Cliente> {
+       if(valor <= 0){
+         throw new Error('Valor do depósito deve ser positivo');
+       }
+       const cliente = await this.findById(clienteId);
+
+       cliente.saldo = Number(cliente.saldo) + valor;  // Atualiza o saldo do cliente
+       
+       await this.clienteRepository.save(cliente);
+
+         return cliente;
     }
 }
