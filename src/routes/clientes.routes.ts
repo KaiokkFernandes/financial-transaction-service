@@ -5,10 +5,10 @@ import { authMiddleware } from '../middlewares/authMiddleware';
 const clienteRoutes = Router();
 const controller = new ClienteController();
 
-clienteRoutes.post('/', controller.create);
+clienteRoutes.post('/', (req, res) => controller.create(req, res));
 
-clienteRoutes.get('/', controller.listAll);
+clienteRoutes.get('/', (req, res) => controller.listAll(req, res));
 
-clienteRoutes.get('/:id', authMiddleware,  controller.findById);
+clienteRoutes.get('/:id', authMiddleware, (req, res) => controller.findById(req, res));
 
 export default clienteRoutes;
