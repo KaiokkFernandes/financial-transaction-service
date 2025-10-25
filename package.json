@@ -12,7 +12,12 @@
     "test:coverage": "jest --coverage",
     "typeorm": "npx ts-node ./node_modules/typeorm/cli.js --dataSource src/data-source.ts",
     "migration:generate": "npm run typeorm -- migration:generate",
-    "migration:run": "npm run typeorm -- migration:run"
+    "migration:run": "npm run typeorm -- migration:run",
+    "populate": "ts-node scripts/populate-database.ts",
+    "populate:50k": "ts-node scripts/populate-database.ts 50000",
+    "populate:20k": "ts-node scripts/populate-database.ts 20000",
+    "k6:setup": "docker-compose -f docker-compose-k6.yml up -d influxdb grafana",
+    "k6:down": "docker-compose -f docker-compose-k6.yml down"
   },
   "repository": {
     "type": "git",

@@ -59,6 +59,16 @@ O projeto possui testes automatizados utilizando Jest, cobrindo:
 - Testes unitários dos services
 - Cobertura de código automatizada
 
+### Testes de Carga
+
+O projeto também inclui testes de desempenho com K6 e Grafana para avaliar:
+
+- **Cenário A**: 50% leituras / 50% escritas
+- **Cenário B**: 75% leituras / 25% escritas
+- **Cenário C**: 25% leituras / 75% escritas
+
+Consulte a documentação completa em `documentacaoAPI/testes-carga-k6.md`.
+
 
 ## Como Iniciar o Projeto
 
@@ -113,6 +123,10 @@ docker-compose up --build
 - `npm run test:coverage` - Executa os testes com relatório de cobertura
 - `npm run migration:generate` - Gera nova migração
 - `npm run migration:run` - Executa as migrações pendentes
+- `npm run populate:50k` - Popula o banco com 50.000 clientes
+- `npm run populate:20k` - Popula o banco com 20.000 clientes
+- `npm run k6:setup` - Inicia InfluxDB e Grafana para testes de carga
+- `npm run k6:down` - Para os serviços de teste de carga
 
 ## Estrutura da API
 

@@ -139,3 +139,10 @@ vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
 
 database/
+# K6 test data
+k6/clientes-data.json
+k6/*.json
+
+# Grafana and InfluxDB data
+grafana-data/
+influxdb-data/
