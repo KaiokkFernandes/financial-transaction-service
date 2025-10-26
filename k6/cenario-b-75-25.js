@@ -68,7 +68,7 @@ export function realizarLeituras() {
 }
 
 export function realizarEscritas() {
-  const cliente = clientes[randomIntBetween(0, Math.min(clientes.length - 1, 100))];
+  const cliente = clientes[randomIntBetween(0, Math.min(clientes.length - 1, 10))];
   
   const headers = {
     'Authorization': `Bearer ${cliente.apiKey}`,
@@ -93,7 +93,7 @@ export function realizarEscritas() {
   sleep(randomIntBetween(1, 3));
 
   if (Math.random() < 0.3) {
-    const clienteDestino = clientes[randomIntBetween(0, Math.min(clientes.length - 1, 100))];
+    const clienteDestino = clientes[randomIntBetween(0, Math.min(clientes.length - 1, 10))];
     
     if (clienteDestino.id !== cliente.id) {
       const transferenciaPayload = JSON.stringify({

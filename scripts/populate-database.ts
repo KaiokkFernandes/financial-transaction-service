@@ -33,7 +33,7 @@ function gerarSaldoInicial(): number {
 
 async function popularBancoDeDados(quantidade: number) {
   console.log(`🚀 Iniciando população do banco de dados com ${quantidade} registros...`);
-  
+  const startTime = Date.now();
   try {
     await AppDataSource.initialize();
     console.log('✅ Conexão com banco de dados estabelecida');
@@ -71,6 +71,11 @@ async function popularBancoDeDados(quantidade: number) {
       const progresso = ((lote + 1) / totalLotes * 100).toFixed(1);
       console.log(`⏳ Progresso: ${progresso}% (${fim}/${quantidade} registros)`);
     }
+
+    const endTime = Date.now();
+    const durationSeconds = ((endTime - startTime) / 1000).toFixed(2);
+    const durationMinutes = (Number(durationSeconds) / 60).toFixed(2);
+    console.log(`⏱️ Tempo total para popular ${quantidade} registros: ${durationSeconds} segundos (${durationMinutes} minutos)`);
 
     console.log('✅ População do banco concluída com sucesso!');
     

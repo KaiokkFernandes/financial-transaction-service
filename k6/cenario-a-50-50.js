@@ -76,7 +76,7 @@ export function realizarLeituras() {
 
 // Função para realizar escritas (POST)
 export function realizarEscritas() {
-  const cliente = clientes[randomIntBetween(0, Math.min(clientes.length - 1, 100))];
+  const cliente = clientes[randomIntBetween(0, Math.min(clientes.length - 1, 10))];
   
   const headers = {
     'Authorization': `Bearer ${cliente.apiKey}`,
