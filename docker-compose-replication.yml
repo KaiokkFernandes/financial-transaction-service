@@ -11,16 +11,11 @@ services:
       POSTGRES_USER: finance_user
       POSTGRES_PASSWORD: finance_pass
       POSTGRES_DB: financial_db
-      # Variáveis para replicação
-      POSTGRES_INITDB_ARGS: "-c wal_level=replica"
     volumes:
       - postgres-master-data:/var/lib/postgresql/data
-      - ./database/postgresql-master.conf:/etc/postgresql/postgresql.conf
-      - ./database/pg_hba.conf:/etc/postgresql/pg_hba.conf
       - ./database/init-master.sh:/docker-entrypoint-initdb.d/init-master.sh
     ports:
       - "5432:5432"
-    command: postgres -c config_file=/etc/postgresql/postgresql.conf -c hba_file=/etc/postgresql/pg_hba.conf
     networks:
       - financial-network
     healthcheck:
@@ -39,12 +34,8 @@ services:
       POSTGRES_USER: finance_user
       POSTGRES_PASSWORD: finance_pass
       POSTGRES_DB: financial_db
-      PGUSER: finance_user
-      PGPASSWORD: finance_pass
     volumes:
       - postgres-replica-data:/var/lib/postgresql/data
-      - ./database/postgresql-replica.conf:/etc/postgresql/postgresql.conf
-      - ./database/init-replica.sh:/docker-entrypoint-initdb.d/init-replica.sh
     ports:
       - "5433:5432"
     depends_on:
